@@ -5,13 +5,15 @@
 # ---------------------------------- #
 
 cd
-if [ -d /etc/udp ];then
 rm -rf /etc/udp
-fi
 mkdir -p /etc/udp
 
-UDP="https://raw.githubusercontent.com/hsspunya93/JVP/main/"
+# change to time GMT+7
+echo "change to time GMT+7"
+ln -fs /usr/share/zoneinfo/Asia/Jakarta /etc/localtime
+
 # install udp-custom
+UDP="https://raw.githubusercontent.com/hsspunya93/JVP/main/"
 echo downloading udp-custom
 wget -O /etc/udp/udp-custom "${UDP}config/udp-custom-linux-amd64"
 echo downloading default config
@@ -19,24 +21,45 @@ wget -O /etc/udp/config.json "${UDP}config/config.json"
 chmod 777 /etc/udp/config.json
 chmod +x /etc/udp/udp-custom
 
-cat > /etc/systemd/system/udp-custom.service <<-END
+if [ -z "$1" ]; then
+cat <<EOF > /etc/systemd/system/udp-custom.service
 [Unit]
-Description=UDP Custom Service
-Documentation=https://t.me/rajaganjil93
-After=network.target nss-lookup.target
+Description=UDP Custom by ePro Dev. Team
 
 [Service]
 User=root
 Type=simple
-ExecStart=/etc/udp/udp-custom server -exclude 1,54,55,1000,65535
+ExecStart=/etc/udp/udp-custom server
 WorkingDirectory=/etc/udp/
 Restart=always
-RestartSec=5s
+RestartSec=2s
 
 [Install]
 WantedBy=default.target
-END
+EOF
+else
+cat <<EOF > /etc/systemd/system/udp-custom.service
+[Unit]
+Description=UDP Custom by ePro Dev. Team
 
-systemctl enable udp-custom
-systemctl restart udp-custom
-clear
+[Service]
+User=root
+Type=simple
+ExecStart=/etc/udp/udp-custom server -exclude $1
+WorkingDirectory=/etc/udp/
+Restart=always
+RestartSec=2s
+
+[Install]
+WantedBy=default.target
+EOF
+fi
+
+echo start service udp-custom
+systemctl start udp-custom &>/dev/null
+
+echo enable service udp-custom
+systemctl enable udp-custom &>/dev/null
+
+echo restart service udp-custom
+systemctl restart udp-custom &>/dev/null
