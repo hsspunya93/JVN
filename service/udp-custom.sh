@@ -13,7 +13,7 @@ echo "change to time GMT+7"
 ln -fs /usr/share/zoneinfo/Asia/Jakarta /etc/localtime
 
 # install udp-custom
-UDP="https://raw.githubusercontent.com/hsspunya93/JVPN/main/"
+UDP="https://raw.githubusercontent.com/hsspunya93/JVN/main/"
 echo downloading udp-custom
 wget -O /etc/udp/udp-custom "${UDP}config/udp-custom-linux-amd64"
 echo downloading default config
