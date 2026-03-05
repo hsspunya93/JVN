@@ -114,7 +114,7 @@ fi
 ipsaya=$(curl -sS ipv4.icanhazip.com)
 data_server=$(curl -v --insecure --silent https://google.com/ 2>&1 | grep Date | sed -e 's/< Date: //')
 date_list=$(date +"%Y-%m-%d" -d "$data_server")
-data_ip="https://raw.githubusercontent.com/julakhss/cbt/main/ip"
+data_ip="https://raw.githubusercontent.com/julakhss/opt/main/ip"
 checking_sc() {
   useexp=$(wget -qO- $data_ip | grep $ipsaya | awk '{print $3}')
   if [[ $date_list < $useexp ]]; then
@@ -1680,8 +1680,8 @@ KEY="6561892159:AAEfW_wh32WA3KzJDVrvFDDbtazjcmA2Cc4"
 URL="https://api.telegram.org/bot$KEY/sendMessage"
 
 HOST=$(cat /etc/xray/domain)
-USRID=$(curl https://raw.githubusercontent.com/julakhss/cbt/main/ip | grep $ipsaya | awk '{print $2}')
-USREXP=$(curl https://raw.githubusercontent.com/julakhss/cbt/main/ip | grep $ipsaya | awk '{print $3}')
+USRID=$(curl https://raw.githubusercontent.com/julakhss/opt/main/ip | grep $ipsaya | awk '{print $2}')
+USREXP=$(curl https://raw.githubusercontent.com/julakhss/opt/main/ip | grep $ipsaya | awk '{print $3}')
 TIME=`date -d "0 days" +"%d-%m-%Y" `
 TIMEZONE=$(printf '%(%H:%M:%S)T')
 TEXT="
@@ -1769,5 +1769,6 @@ sleep 4
     if [ "$str" = "y" ]; then
 
         reboot
+
 
     fi
